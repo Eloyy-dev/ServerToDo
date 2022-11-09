@@ -6,7 +6,7 @@ const getAllUsers = async (req, res) => {
     const result = await UserService.getAll();
     res.status(200).json(result);
   } catch (error) {
-    console.log(error);
+    next({ status: 418, errorContent: error })
   }
 }
 
@@ -17,7 +17,7 @@ const getById = async (req, res) => {
     res.status(200).json(result);
 
   } catch (error) {
-    console.log(error)
+    next({ status: 418, errorContent: error })
   }
 }
 
@@ -28,7 +28,7 @@ const getUserWithAddres = async (req, res) => {
     res.status(200).json(result);
 
   } catch (error) {
-    console.log(error)
+    next({ status: 418, errorContent: error })
 
   }
 }
@@ -40,7 +40,7 @@ const getUserWithTasks = async (req, res) => {
     res.status(200).json(result);
 
   } catch (error) {
-    console.log(error)
+    next({ status: 418, errorContent: error })
 
   }
 }
