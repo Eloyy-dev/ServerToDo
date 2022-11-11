@@ -34,11 +34,10 @@ const deleteTasks = async (req, res, next) => {
 }
 
 const postTasks = async (req, res, next) => {
-
-  const { user_Id, title, description } = req.body;
   try {
-    const result = await tasksService.postNewTasks(user_Id, title, description);
-    res.status(200).json(result);
+    const { task, categories } = req.body;
+    const result = await tasksService.postNewTasks(task, categories);
+    res.status(200).json({message: "la tarea se creo :)"});
   } catch (error) {
     next({ status: 418, errorContent: error })
   }

@@ -45,8 +45,29 @@ const getUserWithTasks = async (req, res) => {
   }
 }
 
-
-
+const createUser = async (req, res, next) => {
+  try {
+    const newUser = req.body;
+    const result = await UserService.add(newUser);
+    res.status(201).json(result);
+  } catch (error) {
+    next({
+      status: 418,
+      errorContent: error,
+      message: "Revisa la información que mandas",
+    });
+  }
+};
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const dataUpdate = req.body;
+    const result = await UserServices.update(dataUpdate, id);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 
@@ -55,4 +76,6 @@ module.exports = {
   getById,
   getUserWithAddres,
   getUserWithTasks,
+  createUser,
+  updateUser,
 }

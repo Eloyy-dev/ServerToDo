@@ -1,5 +1,5 @@
-const {Router} = require("express");
-const { getAllUsers, getById, getUserWithAddres, getUserWithTasks } = require("../Controllers/user.controllers");
+const { Router } = require("express");
+const { getAllUsers, getById, getUserWithAddres, getUserWithTasks, createUser ,updateUser} = require("../Controllers/user.controllers");
 
 const router = Router();
 
@@ -16,8 +16,9 @@ router.get("/users/:id/address", getUserWithAddres);
 //obtener la tarea/s de un user especifico
 router.get("/users/:id/tasks", getUserWithTasks);
 
+router.post("/users", createUser);
 
-
+router.put("/users/:id", updateUser);
 
 
 

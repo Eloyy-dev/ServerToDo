@@ -1,5 +1,6 @@
 const Tasks = require('../models/tasks.models');
 const TaskCategories = require('../models/taskcategories.models');
+const Categories = require('../models/categories.models');
 
 
 
@@ -8,7 +9,7 @@ class TasksService {
   static async getAll() {
     try {
       const result = await Tasks.findAll({
-        attributes: ["id", "title", "description", "is_complete"],
+        attributes: ["id", "title", "description", "is_complete", "userId"],
       });
       return result;
     } catch (error) {
@@ -16,10 +17,20 @@ class TasksService {
     }
   }
 
-  static async getOneId(id) {
+  static async getOneId(userId) {
     try {
-      const result = await Tasks.findByPk(id, {
+      const result = await Tasks.findAll({
+        where: { userId },
         attributes: ["id", "title", "description", "is_complete"],
+        include:{
+          model: TaskCategories,
+          as: 'categories',
+          attributes:["categoryId"],
+          include:{
+            model: Categories,
+            as: 'categories'
+          }
+        }
       });
       return result;
     } catch (error) {
@@ -41,28 +52,28 @@ class TasksService {
     }
   }
 
-  static async postNewTasks(user_Id,title, description, is_complete) {
+  static async postNewTasks(task, categorias) {
     try {
-      const result = await Tasks.create({
-        userId: user_Id,
-        title: title,
-        description: description
-      });
-      return result;
+      const tasksResult = await Tasks.create(task);
+
+      const { id } = tasksResult;
+      categorias.forEach(async (categoria) => TaskCategories.create({ categoryId: categoria, taskId: id }));
+     
+      return tasksResult;
     } catch (error) {
       throw error;
 
     }
   }
 
-  static async updateTasks(id,title, description, is_complete) {
+  static async updateTasks(id, title, description, is_complete) {
     try {
       const result = await Tasks.update({
         isComplete: is_complete,
         title: title,
         description: description
-      },{
-        where:{
+      }, {
+        where: {
           id: id,
         }
       });

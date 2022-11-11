@@ -6,7 +6,7 @@ const morgan =  require("morgan");
 //IMPORTO LAS RUTAS DEL USUARIO
 const userRoutes = require('./Routes/users.routes');
 const tasksRoutes = require('./Routes/tasks.routes');
-
+const authRoutes = require('./Routes/auth.routes');
 require('dotenv').config();
 
 const app = express();
@@ -38,7 +38,7 @@ app.use('/api/v1', userRoutes);
 
 app.use('/api/v1', tasksRoutes);
 
-
+app.use('/api/v1', authRoutes);
 
 app.use(handleError);
 

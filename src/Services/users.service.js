@@ -79,9 +79,25 @@ class UserService {
       throw error;
     }
   }
+  static async add(newUser) {
+    try {
+      const result = await Users.create(newUser);
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 
-
-
+  static async update(updateData, id) {
+    try {
+      const result = await Users.update(updateData, {
+        where: { id },
+      });
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 
